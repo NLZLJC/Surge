@@ -2,7 +2,7 @@
 #!desc=解锁订阅 2022.11.8
 
 [MITM]
-hostname = %APPEND% api.craft.do
+hostname = api.craft.do
 
 [Script]
 craft = type=http-response,pattern=^https:\/\/api\.craft\.do\/auth\/v2\/profile,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NLZLJC/Surge/main/JS/Craft.js
