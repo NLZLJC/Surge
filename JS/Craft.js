@@ -1,6 +1,6 @@
 let obj = JSON.parse($response.body);
 obj["subscription"]={
-  "tier":"Free",
-  "subscriptionActive":false,
+  "tier":"Pro",
+  "subscriptionActive":true,
 },
 $done({body: JSON.stringify(obj)});
