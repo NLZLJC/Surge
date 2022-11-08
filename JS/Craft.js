@@ -3,4 +3,4 @@ obj["subscription"]={
   "tier":"Free",
   "subscriptionActive":false,
 },
-$done({body: JSON.stringify(obj)})
+$done({body: JSON.stringify(obj)});
