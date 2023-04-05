@@ -1,0 +1,61 @@
+[General]
+skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 127.0.0.1, localhost, *.local,seed-sequoia.siri.apple.com,sequoia.apple.com
+test-timeout = 5
+loglevel = notify
+http-api-web-dashboard = true
+
+[Ponte]
+server-proxy-name = 外网
+client-proxy-name = Proxy
+
+[Proxy Group]
+# > 策略组（下面的节点信息需与外部节点对应，若删除了外部节点里的节点，那么在策略组里也要删除。）
+Proxy = select, DIRECT, 新加坡节点
+Google = url-test, 美国节点, 新加坡节点, no-alert=0, hidden=0, include-all-proxies=0, update-interval=0
+Netflix = fallback, 新加坡节点, 美国节点, no-alert=0, hidden=0, include-all-proxies=0
+XBOX = fallback, 美国节点, no-alert=0, hidden=0, include-all-proxies=0
+# > 外部节点
+美国节点 = url-test, policy-path=https://sub.nexconvert.com/downloadConfig/NodeList.aspx?urk=30dbd402-42dd-4779-8671-2a327e14381b, update-interval=0, policy-regex-filter=(🇺🇸)|(美)|(States)|(US), no-alert=0, hidden=0, include-all-proxies=0
+新加坡节点 = url-test, policy-path=https://sub.nexconvert.com/downloadConfig/NodeList.aspx?urk=30dbd402-42dd-4779-8671-2a327e14381b, update-interval=0, policy-regex-filter=🇸🇬, no-alert=0, hidden=0, include-all-proxies=0
+外网 = url-test, policy-path=https://sub.nexconvert.com/downloadConfig/NodeList.aspx?urk=30dbd402-42dd-4779-8671-2a327e14381b, update-interval=0
+
+[Rule]
+DOMAIN,i.imgur.com,外网
+DOMAIN,v2ex.com,外网 // #v2ex
+# > Notion
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Notion/Notion.list,外网
+# > Dropbox
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Dropbox/Dropbox.list,外网
+# > Telegram
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Telegram/Telegram.list,外网
+# > Twitter
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Twitter/Twitter.list,外网
+# > OpenAI
+RULE-SET,https://raw.githubusercontent.com/BlueGrave/Surge/master/Ruleset/OpenAI.list,外网
+# > Github
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/GitHub/GitHub.list,外网
+# > GitBook
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/GitBook/GitBook.list,外网
+# > Surge官网
+DOMAIN-SUFFIX,nssurge.com,外网 // Added for: https://nssurge.com/
+# > Google服务
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Google/Google.list,Google
+# > XBOX
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Xbox/Xbox.list,XBOX
+# > Netflix
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Netflix/Netflix.list,Netflix
+# > 本地/局域网地址
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Lan/Lan.list,DIRECT
+# > 局域网地址
+RULE-SET,LAN,DIRECT
+# > GeoIP China
+GEOIP,CN,DIRECT
+# > DNS 查询失败走Final规则
+FINAL,DIRECT
+
+[MITM]
+skip-server-cert-verify = true
+h2 = true
+ca-passphrase = 2D31D331
+ca-p12 = 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
+
